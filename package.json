@@ -66,8 +66,8 @@
     "type": "git",
     "url": "git+https://github.com/JUkhan/react-mono-state.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["redux","rxjs","mono-state"],
+  "author": "Jasim Khan<jasim.uddin.khan@gmail.com>",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/JUkhan/react-mono-state/issues"
