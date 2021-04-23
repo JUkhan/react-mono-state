@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "sourceMap": true,
+    "module": "es2015",
+    "target": "es2017",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "skipLibCheck": true,
+    "declaration": true,
+    "noEmit": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["esnext","dom"],
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "jsx": "react"
+  },
+  "include": ["src"],
+  "exclude": [
+    "node_modules",
+    "app",
+    "examples",
+    "cypress",
+    "src/*.test.ts",
+    "src/*.test.tsx",
+    "src/__mocks__"
+  ]
+}
