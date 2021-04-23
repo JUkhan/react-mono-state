@@ -1,6 +1,5 @@
 import React, { FC, useState, useRef } from "react";
 import { useDispatch, useActionHandler } from 'react-mono-state';
-import { mapTo } from "rxjs/operators";
 import { Todo } from "../states/appState";
 import { ActionTypes } from "../states/appState";
 
@@ -9,7 +8,7 @@ export const UpdateTodo: FC<Todo> = ({ completed, description, id }) => {
   const [editable, setEditable] = useState(false);
   const [value, setDescription] = useState(description);
   const inputRef = useRef(null as any);
-  const [{ loading }, toggle] = useActionHandler<boolean>(action$ => action$.whereType(ActionTypes.TODOS_UPDATED).pipe(mapTo(true)));
+  const [{ loading }, toggle] = useActionHandler(action$ => action$.whereType(ActionTypes.TODOS_UPDATED));
 
   if (!loading) {
     setEditable(false);

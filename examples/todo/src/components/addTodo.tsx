@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { mapTo, map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { map, debounceTime, distinctUntilChanged } from 'rxjs/operators';
 import { useDispatch, useActionHandler, useStoreEffect } from "react-mono-state";
 import { ActionTypes } from "../states/appState";
 
@@ -9,7 +9,7 @@ export const AddTodo = () => {
   const [description, setDescription] = useState('');
   const [isSearching, togglleSearching] = useState(false)
 
-  const [{ loading }, toggle] = useActionHandler<boolean>(action$ => action$.whereType(ActionTypes.TODOS_ADDED).pipe(mapTo(true)));
+  const [{ loading }, toggle] = useActionHandler(action$ => action$.whereType(ActionTypes.TODOS_ADDED));
 
   function handleSubmit(e: any) {
     e.preventDefault();
