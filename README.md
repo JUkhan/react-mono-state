@@ -1,8 +1,8 @@
 # react-mono-state
-State Management Lib - This is reactive and less boilerplate 
 
+State Management Lib - This is reactive and less boilerplate
 
-[counterApp](https://stackblitz.com/edit/react-mono-state?file=index.tsx) | [todoApp](https://stackblitz.com/edit/react-todo-mono?file=index.tsx)
+[counter](https://stackblitz.com/edit/react-mono-state?file=index.tsx) | [todo](https://stackblitz.com/edit/react-todo-mono?file=index.tsx)
 
 ### counterState
 
