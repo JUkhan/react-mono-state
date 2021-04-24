@@ -1,6 +1,6 @@
 # react-mono-state
 
-State Management Lib - This is reactive and less boilerplate
+State Management Lib - reactive and less boilerplate
 
 [counter](https://stackblitz.com/edit/react-mono-state?file=index.tsx) | [todo](https://stackblitz.com/edit/react-todo-mono?file=index.tsx)
 
