@@ -12,7 +12,7 @@ export interface RegisterState<M = any, S = any> {
     action: Action,
     emit: (state: M | ((state: M) => M)) => M,
     select: () => S,
-    dispatch: (actionName: string | Action, payload?: any) => void
+    dispatch: (actionName: string | symbol | Action, payload?: any) => void
   ) => void;
 }
 
@@ -78,7 +78,7 @@ export class MonoStore<S = any> {
     }
   }
 
-  dispatch = (actionName: string | Action, payload?: any) => {
+  dispatch = (actionName: string | symbol | Action, payload?: any) => {
     if (typeof actionName === "object") {
       this._dispatcher.next(actionName);
       return;

@@ -1,7 +1,7 @@
 export enum SearchCategory {
   all = 1,
   active,
-  completed
+  completed,
 }
 export interface Todo {
   id: number;
@@ -14,15 +14,15 @@ export interface AppState {
 }
 
 export const ActionTypes = {
-  SPINNING_START: "SPINNING_START",
-  SPINNING_END: "SPINNING_END",
-  TODOS_ERROR: "TODOS_ERROR",
-  TODOS_UPDATED: "TODOS_UPDATED",
-  TODOS_ADDED: "TODOS_ADDED",
-  CHANGE_SEARCH_CATEGORY: "changeSearchCategory",
-  ADD_TODO: "ADD_TODO",
-  UPDATE_TODO: "UPDATE_TODO",
-  REMOVE_TODO: "REMOVE_TODO",
-  SEARCH_INPUT:'SEARCH_INPUT',
-  SEARCHING_TODOS:'SEARCHING_TODOS'
+  SPINNING_START: Symbol(),
+  SPINNING_END: Symbol(),
+  TODOS_ERROR: Symbol(),
+  TODOS_UPDATED: Symbol(),
+  TODOS_ADDED: Symbol(),
+  CHANGE_SEARCH_CATEGORY: Symbol(),
+  ADD_TODO: Symbol(),
+  UPDATE_TODO: Symbol(),
+  REMOVE_TODO: Symbol(),
+  SEARCH_INPUT: Symbol(),
+  SEARCHING_TODOS: Symbol(),
 };
