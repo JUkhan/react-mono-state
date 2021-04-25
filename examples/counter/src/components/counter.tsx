@@ -1,11 +1,11 @@
 import React from 'react';
 import { useSelector, useDispatch } from "react-mono-state";
-import { AppState, Counter } from '../states/appState';
+import { AppState } from '../states/appState';
 
 export const CounterCom = () => {
   const dispatch = useDispatch();
 
-  const state = useSelector<AppState, Counter>(state => state.counter);
+  const state = useSelector((state: AppState) => state.counter);
 
   return (
     <div className="counter">

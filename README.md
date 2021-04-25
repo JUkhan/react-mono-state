@@ -41,9 +41,7 @@ import { useSelector, useDispatch } from "react-mono-state";
 
 export default () => {
   const dispatch = useDispatch();
-  const { count, loading } = useSelector<AppState, CounterState>(
-    (state) => state.counter
-  );
+  const { count, loading } = useSelector((state: AppState) => state.counter);
   return (
     <div>
       <button onClick={(e) => dispatch("inc")}>+</button>
