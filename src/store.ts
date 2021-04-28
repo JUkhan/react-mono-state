@@ -8,12 +8,12 @@ export interface RegisterState<M = any, S = any> {
   stateName: string;
   initialState: M;
   mapActionToState: (
-    state: M,
-    action: Action,
     emit: (state: M | ((state: M) => M)) => M,
     select: () => S,
     dispatch: (actionName: string | symbol | Action, payload?: any) => void
-  ) => void;
+  ) => {
+    [key: string]: (state: M, action: Action) => void;
+  };
 }
 
 export class MonoStore<S = any> {
@@ -51,17 +51,17 @@ export class MonoStore<S = any> {
       }
       return state;
     };
-
+    const reducer = mapActionToState(
+      emitState,
+      () => this._store.value,
+      this.dispatch
+    );
     this._stateSubscriptions.set(
       stateName,
       this._dispatcher.subscribe((action) => {
-        mapActionToState(
-          this._store.value[stateName],
-          action,
-          emitState,
-          () => this._store.value,
-          this.dispatch
-        );
+        if (typeof reducer[action.type] === "function") {
+          reducer[action.type](this._store.value[stateName], action);
+        }
       })
     );
   }
@@ -108,7 +108,6 @@ export class MonoStore<S = any> {
     this._store.next({});
   }
 }
-
 export function createStore(states: RegisterState[]) {
   return new MonoStore(states);
 }

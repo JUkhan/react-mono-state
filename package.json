@@ -1,6 +1,6 @@
 {
   "name": "react-mono-state",
-  "version": "0.2.5",
+  "version": "0.3.0",
   "description": "State Management Lib - reactive and less boilerplate ",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

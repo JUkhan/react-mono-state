@@ -6,20 +6,20 @@ import { addTodo, getTodos, removeTodo, updateTodo } from "../services/api";
 export const todos: RegisterState<Todo[]> = {
   stateName: "todos",
   initialState: [],
-  mapActionToState(state, action, emit, _, dispatch) {
-    switch (action.type) {
-      case "registerState(todos)":
+  mapActionToState(emit, _, dispatch) {
+    return {
+      ["registerState(todos)"]() {
         callApi(getTodos(), dispatch, (res: Todo[]) => {
           emit(res);
         });
-        break;
-      case ActionTypes.ADD_TODO:
+      },
+      [ActionTypes.ADD_TODO](state, action) {
         callApi(addTodo(action.payload), dispatch, (todo) => {
           emit([...state, todo]);
           dispatch(ActionTypes.TODOS_ADDED);
         });
-        break;
-      case ActionTypes.UPDATE_TODO:
+      },
+      [ActionTypes.UPDATE_TODO](state, action) {
         callApi(updateTodo(action.payload), dispatch, (updatedtodo) => {
           emit(
             state.reduce((acc: Todo[], todo) => {
@@ -29,13 +29,13 @@ export const todos: RegisterState<Todo[]> = {
           );
           dispatch(ActionTypes.TODOS_UPDATED);
         });
-        break;
-      case ActionTypes.REMOVE_TODO:
+      },
+      [ActionTypes.REMOVE_TODO](state, action) {
         callApi(removeTodo(action.payload?.id ?? 0), dispatch, (id) => {
           emit(state.filter((t) => t.id !== id));
         });
-        break;
-    }
+      },
+    };
   },
 };
 

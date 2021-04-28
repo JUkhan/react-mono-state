@@ -9,23 +9,23 @@ State Management Lib - reactive and less boilerplate
 ```tsx
 import { RegisterState } from "react-mono-state";
 
-export const counterState: RegisterState<CounterState> = {
+export const counterState: RegisterState<Counter> = {
   stateName: "counter",
   initialState: { loading: false, count: 0 },
-  async mapActionToState(state, action, emit) {
-    switch (action.type) {
-      case "inc":
+  mapActionToState(emit) {
+    return {
+      inc(state) {
         emit({ loading: false, count: state.count + 1 });
-        break;
-      case "dec":
+      },
+      dec(state) {
         emit({ loading: false, count: state.count - 1 });
-        break;
-      case "asyncInc":
+      },
+      async asyncInc(state) {
         emit({ loading: true, count: state.count });
         await delay(1000);
-        emit((cstate) => ({ loading: false, count: cstate.count + 1 }));
-        break;
-    }
+        emit((c_state) => ({ loading: false, count: c_state.count + 1 }));
+      },
+    };
   },
 };
 
