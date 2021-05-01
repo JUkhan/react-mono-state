@@ -77,7 +77,7 @@ export default MyApp;
 
 ### Action Handler and Effects [search Demo](https://stackblitz.com/edit/react-mono-search?file=Search.tsx)
 
-We are going to develop a search component. This component has a `SearchInput` child component which dispatches `search-input` action every times user strokes in the keyboard. The `search-input` action catched by the `useStoreEffect` hook who debounces a while so that he can collect some keys and then send a request to the server to pull the search result and finally dispatches a new action (named `search-result`) with pulled data.
+We are going to develop a search component. This component has a `SearchInput` child component which dispatches `search-input` action every times user strokes in the keyboard. The `search-input` action catches by the `useStoreEffect` hook which debounces a while so that he can collect some more keys and then send a request to the server to pull the search result and finally dispatches a new action (named `search-result`) with pulled data.
 
 At the moment `search-result` action dispatchs - `Search` component is ready to handle this action by the `useActionHandler` hook and then render the search result.
 
