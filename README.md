@@ -1,6 +1,6 @@
 # react-mono-state
 
-State Management Lib - reactive and less boilerplate. No need external middleware to perform state change asynchronously and you can handle any action on any component and also make effects on it by using hooks - useActionHandler, useStoreEffect. Remaining useful hooks are - useSelector, useDispatch, useStore etc.
+State Management Lib - reactive and less boilerplate. No need external middleware to perform state change asynchronously and you can handle any actions on any components and also make effects on it by using hooks - useActionHandler, useStoreEffect. Remaining useful hooks are - useSelector, useDispatch, useStore etc.
 
 [counter](https://stackblitz.com/edit/react-mono-state?file=index.tsx) | [todo](https://stackblitz.com/edit/react-todo-mono?file=index.tsx)
 
