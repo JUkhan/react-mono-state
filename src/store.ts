@@ -37,17 +37,20 @@ export class MonoStore<S = any> {
     if (this._store.value[stateName]) {
       return;
     }
-    this._store.value[stateName] = initialState;
+
+    this._store.next(
+      Object.assign({}, this._store.value, { [stateName]: initialState })
+    );
     this.dispatch({ type: `registerState(${stateName})` });
-    this._store.next(this._store.value);
 
     const emitState = (state: any) => {
       if (typeof state === "function") {
         state = state(this._store.value[stateName]) as any;
       }
       if (this._store.value[stateName] !== state) {
-        this._store.value[stateName] = state;
-        this._store.next(this._store.value);
+        this._store.next(
+          Object.assign({}, this._store.value, { [stateName]: state })
+        );
       }
       return state;
     };
@@ -73,7 +76,7 @@ export class MonoStore<S = any> {
       delete state[stateName];
       setTimeout(() => {
         this.dispatch(`unregisterState(${stateName})`);
-        this._store.next(state);
+        this._store.next(Object.assign({}, state));
       }, 0);
     }
   }

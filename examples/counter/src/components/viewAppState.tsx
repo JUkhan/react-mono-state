@@ -1,17 +1,12 @@
 import React from 'react';
-import { useStream } from "react-mono-state";
-import { map } from 'rxjs/operators';
-import { AppState } from '../states/appState';
+import { useSelector } from "react-mono-state";
 
 export const ViewAppState = () => {
 
-  const [{ data }] = useStream((_, store) =>
-    store._store.pipe(
-      map((state: AppState) => state)
-    ));
+  const state = useSelector(state => state);
 
   return (
-    <div> <pre>{JSON.stringify(data, null, 2)}</pre></div>
+    <div> <pre>{JSON.stringify(state, null, 2)}</pre></div>
   );
 };
 
