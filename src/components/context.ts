@@ -1,4 +1,4 @@
-import { MonoStore } from "../store";
+import { MonoStore } from "mono-state";
 import React from "react";
 
 export const ReactMonoContext = React.createContext<MonoStore>(null as any);

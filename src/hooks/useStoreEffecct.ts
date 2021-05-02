@@ -1,9 +1,7 @@
 import { Observable } from "rxjs";
 import { useStore } from "./useStore";
 import { useIsomorphicLayoutEffect } from "../utils/useIsomorphicLayoutEffect";
-import { Actions } from "../actions";
-import { Action } from "../action";
-import { MonoStore } from "../store";
+import { Actions, Action, MonoStore } from "mono-state";
 
 export function useStoreEffect<S = any>(
   stream$: (action$: Actions, store: MonoStore<S>) => Observable<Action>

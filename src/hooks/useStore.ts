@@ -1,5 +1,5 @@
 import React from "react";
-import { MonoStore } from "../store";
+import { MonoStore } from "mono-state";
 import { ReactMonoContext } from "../components/context";
 import { useMonoContext as useDefaultMonoContext } from "./useMonoContext";
 

@@ -1,9 +1,8 @@
 import React from "react";
 import { Observable } from "rxjs";
-import { MonoStore } from "../store";
+import { MonoStore, Actions } from "mono-state";
 import { useIsomorphicLayoutEffect } from "../utils/useIsomorphicLayoutEffect";
 import { useStore } from "./useStore";
-import { Actions } from "../actions";
 
 interface Response<D> {
   loading: boolean;

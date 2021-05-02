@@ -1,4 +1,4 @@
-import { RegisterState, Action } from "react-mono-state";
+import { RegisterState, Action } from "mono-state";
 import { Todo, ActionTypes } from "./appState";
 import { Observable } from "rxjs";
 import { addTodo, getTodos, removeTodo, updateTodo } from "../services/api";

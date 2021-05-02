@@ -1,4 +1,4 @@
-import { RegisterState } from "react-mono-state";
+import { RegisterState } from "mono-state";
 import { SearchCategory, ActionTypes } from "./appState";
 
 export const visibilittyFilter: RegisterState<SearchCategory> = {
