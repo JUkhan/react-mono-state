@@ -79,7 +79,7 @@ export default MyApp;
 
 We are going to develop a search component. This component has a `SearchInput` child component which dispatches `search-input` action every times user strokes in the keyboard. The `search-input` action catches by the `useStoreEffect` hook which debounces a while so that he can collect some more keys and then send a request to the server to pull the search result and finally dispatches a new action (named `search-result`) with pulled data.
 
-At the moment `search-result` action dispatchs - `Search` component is ready to handle this action by the `useActionHandler` hook and then render the search result.
+At the moment `search-result` action dispatchs - `Search` component is ready to handle this action by the `useActionHandler` hook and then finally render the search results.
 
 All these are happening without reducer and middleware. awesome!
 
