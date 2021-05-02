@@ -81,9 +81,9 @@ We are going to develop a search component. This component has a `SearchInput` c
 
 At the moment `search-result` action dispatchs - `Search` component is ready to handle this action by the `useActionHandler` hook and then render the search result.
 
-All of these are happening without reducer, middleware and also don't need to put state into the store. awesome!
+All these are happening without reducer and middleware. awesome!
 
-Reactive programming is COOL - What a nice combination. its really useful and effective. isn't it?
+Reactive programming is COOL - What a nice combination. its really useful and effective.
 
 ### `SearchInput` component
 
