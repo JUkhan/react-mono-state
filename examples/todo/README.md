@@ -1,46 +1,164 @@
-# Getting Started with Create React App
+# react-mono-state
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+State Management Lib - reactive and less boilerplate. No need external middleware to perform state change asynchronously and you can handle any actions on any components and also make effects on it by using hooks - useActionHandler, useStoreEffect. Remaining useful hooks are - useSelector, useDispatch, useStore etc.
 
-## Available Scripts
+[counter](https://stackblitz.com/edit/react-mono-state?file=index.tsx) | [todo](https://stackblitz.com/edit/react-todo-mono?file=index.tsx)
 
-In the project directory, you can run:
+### counterState
 
-### `npm start`
+```tsx
+import { RegisterState } from "react-mono-state";
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+export const counterState: RegisterState<Counter> = {
+  stateName: "counter",
+  initialState: { loading: false, count: 0 },
+  mapActionToState(emit) {
+    return {
+      inc(state) {
+        emit({ loading: false, count: state.count + 1 });
+      },
+      dec(state) {
+        emit({ loading: false, count: state.count - 1 });
+      },
+      async asyncInc(state) {
+        emit({ loading: true, count: state.count });
+        await delay(1000);
+        emit((c_state) => ({ loading: false, count: c_state.count + 1 }));
+      },
+    };
+  },
+};
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+function delay(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+```
 
-### `npm test`
+### counterComponent
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```tsx
+import { useSelector, useDispatch } from "react-mono-state";
 
-### `npm run build`
+export default () => {
+  const dispatch = useDispatch();
+  const { count, loading } = useSelector((state: AppState) => state.counter);
+  return (
+    <div>
+      <button onClick={(e) => dispatch("inc")}>+</button>
+      <button onClick={(e) => dispatch("asyncInc")}>Async(+)</button>
+      <button onClick={(e) => dispatch("dec")}>-</button>
+      <span>{loading ? "loading..." : count}</span>
+    </div>
+  );
+};
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### app.ts
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```tsx
+import React from "react";
+import { Provider, createStore } from "react-mono-state";
+import { counterState } from "../states/counterState";
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+import "../styles/globals.css";
 
-### `npm run eject`
+export const store = createStore([counterState]);
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+function MyApp({ Component, pageProps }) {
+  return (
+    <Provider store={store}>
+      <Component {...pageProps} />
+    </Provider>
+  );
+}
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+export default MyApp;
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+### Action Handler and Effects [search Demo](https://stackblitz.com/edit/react-mono-search?file=Search.tsx)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+We are going to develop a search component. This component has a `SearchInput` child component which dispatches `search-input` action every times user strokes in the keyboard. The `search-input` action catches by the `useStoreEffect` hook which debounces a while so that he can collect some more keys and then send a request to the server to pull the search result and finally dispatches a new action (named `search-result`) with pulled data.
 
-## Learn More
+At the moment `search-result` action dispatchs - `Search` component is ready to handle this action by the `useActionHandler` hook and then finally render the search results.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+All these are happening without reducer and middleware. awesome!
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Reactive programming is COOL - What a nice combination. its really useful and effective.
+
+### `SearchInput` component
+
+```ts
+import React from "react";
+import { useStoreEffect, useDispatch } from "react-mono-state";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  switchMap,
+  filter,
+} from "rxjs/operators";
+import { from } from "rxjs";
+
+export default () => {
+  const dispatch = useDispatch();
+
+  useStoreEffect((action$) =>
+    action$.whereType("search-input").pipe(
+      debounceTime(320),
+      distinctUntilChanged(),
+      filter(({ payload }) => !!payload),
+      switchMap((action) => getData(action.payload)),
+      map((res) => ({ type: "search-result", payload: res }))
+    )
+  );
+
+  return (
+    <div>
+      <input
+        onChange={(e) =>
+          dispatch({ type: "search-input", payload: e.target.value })
+        }
+        placeholder="search wiki..."
+      />
+    </div>
+  );
+};
+
+function getData(text) {
+  return from(
+    fetch(
+      `https://en.wikipedia.org/w/api.php?&origin=*&action=opensearch&search=${text}&limit=5`
+    )
+      .then((d) => d.json())
+      .then((d) => d)
+  );
+}
+```
+
+### `Search` component
+
+```ts
+import React from "react";
+import SearchInput from "./SearchInput";
+import { useActionHandler } from "react-mono-state";
+import { map } from "rxjs/operators";
+
+export default () => {
+  const [{ loading, data }] = useActionHandler((action$) =>
+    action$.whereType("search-result").pipe(map((action) => action.payload))
+  );
+
+  const res = loading ? (
+    <div>No search result</div>
+  ) : (
+    data[1].map((text, index) => <div key={index}>{text}</div>)
+  );
+
+  return (
+    <div>
+      <SearchInput />
+      {res}
+    </div>
+  );
+};
+```
