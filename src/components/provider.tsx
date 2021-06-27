@@ -10,7 +10,7 @@ interface StoreProps {
 export const Provider: React.FC<StoreProps> = ({ store, context, children }) => {
     useIsomorphicLayoutEffect(() => {
         return () => {
-            store?.clear();
+            store?.dispose();
         }
     }, [store]);
     const Context = context || ReactMonoContext

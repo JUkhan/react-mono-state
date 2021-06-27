@@ -15,5 +15,5 @@ export function useNotifier<R = any, S = any>(
     return () => {
       sub?.unsubscribe();
     };
-  }, []);
+  }, [store]);
 }
